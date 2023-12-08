@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://defalt.local:5432/osm
+    username: osm-core
+    password: osm-core
+  jpa:
+    properties:
+      hibernate:
+        default_schema: osm
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    schemas: ${spring.jpa.properties.hibernate.default_schema}
+    baseline-on-migrate: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keyclock:
+            client-id: osm.core
+            client-secret:
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keyclock:
+            issuer-uri: http://defalt.local:28080/realms/osm
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://defalt.local:28080/realms/osm
+          jwk-set-uri: http://defalt.local:28080/realms/osm/protocol/openid-connect/certs
+keycloak-server:
+  url: http://defalt.local:28080
+  username: osm
+  password: osm
+  client-secret: 4WGszPOyoAvVDqri5NAn6weM2KiTmtXf
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+server:
+  servlet:
+    context-path: /api
+  port: 8090
