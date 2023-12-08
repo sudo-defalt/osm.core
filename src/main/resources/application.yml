@@ -1,6 +1,10 @@
+hosts:
+  postgresql: defalt.local:5432
+  keycloak: defalt.local:8080
+
 spring:
   datasource:
-    url: jdbc:postgresql://defalt.local:5432/osm
+    url: jdbc:postgresql://${hosts.postgresql}/osm
     username: osm-core
     password: osm-core
   jpa:
@@ -27,14 +31,14 @@ spring:
             scope: openid
         provider:
           keyclock:
-            issuer-uri: http://defalt.local:28080/realms/osm
+            issuer-uri: http://${hosts.keycloak}/realms/osm
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://defalt.local:28080/realms/osm
-          jwk-set-uri: http://defalt.local:28080/realms/osm/protocol/openid-connect/certs
+          issuer-uri: http://${hosts.keycloak}/realms/osm
+          jwk-set-uri: http://${hosts.keycloak}/realms/osm/protocol/openid-connect/certs
 keycloak-server:
-  url: http://defalt.local:28080
+  url: http://${hosts.keycloak}
   username: osm
   password: osm
   client-secret: 4WGszPOyoAvVDqri5NAn6weM2KiTmtXf
