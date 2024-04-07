@@ -1,13 +1,10 @@
 package org.defalt.core.entity;
 
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import java.util.Set;
 
 @Entity(name = PostPublication.ENTITY_NAME)
@@ -23,4 +20,6 @@ public class PostPublication extends Publication {
     private String caption;
     @ElementCollection
     private Set<String> files;
+    @ManyToMany
+    private Set<Tag> tags;
 }

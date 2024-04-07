@@ -82,6 +82,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
 
     // DTO based CRUDs //
 
+    @Transactional(readOnly = true)
     public <D extends LoaderDTO<E>> D getEntity(String uid, Supplier<D> instanceSupplier) {
         D DTO = instanceSupplier.get();
         DTO.loadFrom(getSingleEntityByUid(uid));

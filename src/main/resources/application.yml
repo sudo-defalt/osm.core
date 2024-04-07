@@ -1,6 +1,6 @@
 hosts:
   postgresql: defalt.local:5432
-  keycloak: defalt.local:8080
+  keycloak: osm.keycloak:8080
 
 spring:
   datasource:
