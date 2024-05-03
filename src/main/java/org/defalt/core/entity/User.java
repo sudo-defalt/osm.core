@@ -1,15 +1,12 @@
 package org.defalt.core.entity;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Entity(name = User.ENTITY_NAME)
 @Table(name = User.TABLE_NAME)
@@ -37,4 +34,7 @@ public class User extends AbstractEntity {
     @Column(unique = true, nullable = false)
     @EqualsAndHashCode.Include
     private String phoneNumber;
+    @Enumerated
+    @Column(nullable = false)
+    private UserAccessMethod accessMethod;
 }

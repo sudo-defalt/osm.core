@@ -18,11 +18,10 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
-	maven {
-		url "https://download.red-gate.com/maven/release"
-	}
 }
+
 
 dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
