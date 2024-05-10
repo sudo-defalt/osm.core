@@ -11,6 +11,7 @@ public class UserUpdateDTO implements SaverDTO<User> {
     private String uid;
     private String firstname;
     private String lastname;
+    private String profilePhoto;
 
     @Override
     public String getEntityIdentifier() {
@@ -21,5 +22,6 @@ public class UserUpdateDTO implements SaverDTO<User> {
     public void saveTo(User entity) {
         entity.setFirstname(getFirstname());
         entity.setLastname(getLastname());
+        entity.setLastname(getProfilePhoto());
     }
 }

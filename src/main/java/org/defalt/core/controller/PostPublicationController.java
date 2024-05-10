@@ -12,6 +12,7 @@ import org.defalt.core.repository.AbstractEntityRepository;
 import org.defalt.core.service.AbstractEntityService;
 import org.defalt.core.service.PostPublicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,9 +27,9 @@ public class PostPublicationController extends AbstractEntityDTOController<PostP
     private final PostPublicationService service;
 
     @GetMapping("list")
-    public PostPublicationListingDTO getAllPostPublications() {
+    public PostPublicationListingDTO getAllPostPublications(Pageable pageable) {
         User user = UserSecurityContext.getCurrentUser().getUser();
-        return new PostPublicationListingDTO(service.getPostsOfUser(user));
+        return service.getPostsOfUser(user, pageable);
     }
 
     @Override

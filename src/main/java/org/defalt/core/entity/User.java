@@ -37,4 +37,6 @@ public class User extends AbstractEntity {
     @Enumerated
     @Column(nullable = false)
     private UserAccessMethod accessMethod;
+    @Column
+    private String profilePhoto;
 }

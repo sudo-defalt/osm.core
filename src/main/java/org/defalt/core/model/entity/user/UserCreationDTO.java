@@ -1,6 +1,7 @@
 package org.defalt.core.model.entity.user;
 
 import org.defalt.core.entity.User;
+import org.defalt.core.entity.UserAccessMethod;
 import org.defalt.core.model.abstracts.CreationDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class UserCreationDTO implements CreationDTO<User> {
         emptyInstance.setPhoneNumber(phoneNumber);
         emptyInstance.setPassword(password);
         emptyInstance.setEmail(email);
+        emptyInstance.setAccessMethod(UserAccessMethod.Private);
         return emptyInstance;
     }
 }

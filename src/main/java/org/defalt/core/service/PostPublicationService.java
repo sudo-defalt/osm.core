@@ -4,10 +4,15 @@ import org.defalt.core.context.auth.UserSecurityContext;
 import org.defalt.core.entity.PostPublication;
 import org.defalt.core.entity.User;
 import org.defalt.core.model.entity.post.PostPublicationCreationDTO;
+import org.defalt.core.model.entity.post.PostPublicationListingDTO;
 import org.defalt.core.repository.PostPublicationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +27,9 @@ public class PostPublicationService extends AbstractEntityService<PostPublicatio
         this.userService = userService;
     }
 
-    public List<PostPublication> getPostsOfUser(User publisher) {
-        return repository.getAllByPublisherOrderByCreatedAtDesc(publisher);
+    @Transactional
+    public PostPublicationListingDTO getPostsOfUser(User publisher, Pageable pageable) {
+        return new PostPublicationListingDTO(repository.getAllByPublisherOrderByCreatedAtDesc(publisher, pageable));
     }
 
     @Override

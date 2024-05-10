@@ -1,5 +1,6 @@
 package org.defalt.core.service;
 
+import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.entity.Followership;
 import org.defalt.core.entity.User;
 import org.defalt.core.model.entity.follow.FollowershipCreationDTO;
@@ -20,6 +21,10 @@ public class FollowershipService extends AbstractEntityService<Followership, Fol
         this.userRepository = userRepository;
     }
 
+    public static FollowershipService getInstance() {
+        return CurrentApplicationContext.getBean(FollowershipService.class);
+    }
+
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public Followership create(FollowershipCreationDTO creationDTO) {
@@ -28,6 +33,14 @@ public class FollowershipService extends AbstractEntityService<Followership, Fol
         entity.setFollower(userRepository.findByUid(creationDTO.getFollowerUid()).get());
         entity.setFollowee(userRepository.findByUid(creationDTO.getFolloweeUid()).get());
         return repository.save(entity);
+    }
+
+    public long followersCount(User user) {
+        return repository.countByFollowee(user);
+    }
+
+    public long followingsCount(User user) {
+        return repository.countByFollower(user);
     }
 
     @Override
