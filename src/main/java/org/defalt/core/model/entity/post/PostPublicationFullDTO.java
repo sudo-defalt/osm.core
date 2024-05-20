@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Setter
 public class PostPublicationFullDTO implements LoaderDTO<PostPublication> {
     private String uid;
-    private String captions;
+    private String caption;
     private long likes;
     private UserBasicIdentityDTO publisher;
     private Set<String> tags;
@@ -22,7 +22,7 @@ public class PostPublicationFullDTO implements LoaderDTO<PostPublication> {
     @Override
     public void loadFrom(PostPublication entity) {
         this.setUid(entity.getUid());
-        this.setCaptions(entity.getCaption());
+        this.setCaption(entity.getCaption());
         this.setLikes(entity.getLikes());
         this.setPublisher(UserBasicIdentityDTO.build(entity.getPublisher()));
         this.setTags(entity.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));

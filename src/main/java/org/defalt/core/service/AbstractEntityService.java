@@ -34,6 +34,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
     }
 
     // CRUD methods //
+    @Transactional
     public Collection<E> getAll() {
         return repository.findAll();
     }

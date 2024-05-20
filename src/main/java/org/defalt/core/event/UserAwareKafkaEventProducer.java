@@ -2,11 +2,14 @@ package org.defalt.core.event;
 
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.entity.User;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class UserAwareKafkaEventProducer implements EntityAwareEventProducer<User> {
     public static UserAwareKafkaEventProducer instance() {
         return CurrentApplicationContext.getBean(UserAwareKafkaEventProducer.class);

@@ -1,21 +1,22 @@
 package org.defalt.core.util;
 
 import org.defalt.core.context.CurrentApplicationContext;
-import org.defalt.core.entity.PostPublication;
+import org.defalt.core.context.auth.UserSecurityContext;
 import org.defalt.core.entity.User;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
 
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Component
 public final class CipherUtils {
     private final Cipher cipher;
@@ -34,7 +35,17 @@ public final class CipherUtils {
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
     }
 
-    public String encryptAccess(User owner,String media, User user, Date expiration) {
+    public String encryptAccessForMyself(String media) {
+        User user = UserSecurityContext.getCurrentUser().getUser();
+        return encryptAccess(user, media, user, TimeUtils.plusDays(new Date(), 1));
+    }
+
+    public String encryptAccessForMyself(String media, Date date) {
+        User user = UserSecurityContext.getCurrentUser().getUser();
+        return encryptAccess(user, media, user, date);
+    }
+
+    public String encryptAccess(User owner, String media, User user, Date expiration) {
         try {
             return encryptAccess("%s;%s;%s;%d".formatted(owner.getUsername(), media, user.getUsername(), expiration.getTime()));
         } catch (CipheringProcessException e) {

@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.defalt.core.entity.User;
 import org.defalt.core.model.abstracts.LoaderDTO;
 import org.defalt.core.service.FollowershipService;
+import org.defalt.core.util.CipherUtils;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +31,7 @@ public class UserProfileDTO implements LoaderDTO<User> {
         setLastname(entity.getLastname());
         setUsername(entity.getUsername());
         setPhoneNumber(entity.getPhoneNumber());
-        setProfilePhoto(entity.getProfilePhoto());
+        setProfilePhoto(CipherUtils.getInstance().encryptAccessForMyself(entity.getProfilePhoto()));
         setFollowers(FollowershipService.getInstance().followersCount(entity));
         setFollowings(FollowershipService.getInstance().followingsCount(entity));
     }

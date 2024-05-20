@@ -2,11 +2,14 @@ package org.defalt.core.event;
 
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.entity.PostPublication;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class PostPublicationAwareKafkaEventProducer implements EntityAwareEventProducer <PostPublication> {
     public static PostPublicationAwareKafkaEventProducer getInstance() {
         return CurrentApplicationContext.getBean(PostPublicationAwareKafkaEventProducer.class);

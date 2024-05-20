@@ -5,16 +5,18 @@ import org.defalt.core.model.abstracts.CreationDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class PostPublicationCreationDTO implements CreationDTO<PostPublication> {
-    private boolean isPrivate;
     private String caption;
+    private List<String> files;
 
     @Override
     public PostPublication create(PostPublication emptyInstance) {
         emptyInstance.setCaption(caption);
-        emptyInstance.setPrivate(isPrivate);
+        emptyInstance.getFiles().addAll(files);
         return emptyInstance;
     }
 }
