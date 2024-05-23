@@ -8,6 +8,7 @@ import org.defalt.core.service.FollowershipService;
 import org.defalt.core.util.CipherUtils;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -31,7 +32,7 @@ public class UserProfileDTO implements LoaderDTO<User> {
         setLastname(entity.getLastname());
         setUsername(entity.getUsername());
         setPhoneNumber(entity.getPhoneNumber());
-        setProfilePhoto(CipherUtils.getInstance().encryptAccessForMyself(entity.getProfilePhoto()));
+        Optional.ofNullable(entity.getProfilePhoto()).map(CipherUtils.getInstance()::encryptAccessForMyself).ifPresent(this::setProfilePhoto);
         setFollowers(FollowershipService.getInstance().followersCount(entity));
         setFollowings(FollowershipService.getInstance().followingsCount(entity));
     }

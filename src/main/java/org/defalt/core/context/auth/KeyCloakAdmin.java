@@ -18,14 +18,12 @@ public class KeyCloakAdmin {
 
     protected KeyCloakAdmin(@Value("${keycloak-server.url}") String url,
                             @Value("${keycloak-server.username}") String username,
-                            @Value("${keycloak-server.password}") String password,
-                            @Value("${keycloak-server.client-secret}") String clientSecret) {
+                            @Value("${keycloak-server.password}") String password) {
 
         client = KeycloakBuilder.builder()
                 .serverUrl(url)
-                .realm("master")
-                .clientId("admin-cli")
-                .clientSecret(clientSecret)
+                .realm("osm")
+                .clientId("core")
                 .username(username)
                 .password(password)
                 .build();
