@@ -35,6 +35,7 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
 	implementation 'org.flywaydb:flyway-core'
 	compileOnly 'org.projectlombok:lombok'
