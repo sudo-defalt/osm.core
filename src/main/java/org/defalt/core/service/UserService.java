@@ -84,7 +84,7 @@ public class UserService extends AbstractEntityService<User, UserRepository, Use
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setUsername(request.getUsername());
         userRepresentation.setFirstName(request.getFirstname());
-        userRepresentation.setLastName(request.getLastName());
+        userRepresentation.setLastName(request.getLastname());
         userRepresentation.setEmail(request.getEmail());
         userRepresentation.setEnabled(true);
 
