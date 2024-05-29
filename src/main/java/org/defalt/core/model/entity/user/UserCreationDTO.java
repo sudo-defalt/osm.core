@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UserCreationDTO implements CreationDTO<User> {
     private String firstname;
-    private String lastName;
+    private String lastname;
     private String username;
     private String phoneNumber;
     private String password;
@@ -21,7 +21,7 @@ public class UserCreationDTO implements CreationDTO<User> {
     @Override
     public User create(User emptyInstance) {
         emptyInstance.setFirstname(firstname);
-        emptyInstance.setLastname(lastName);
+        emptyInstance.setLastname(lastname);
         emptyInstance.setUsername(username);
         emptyInstance.setPhoneNumber(phoneNumber);
         emptyInstance.setPassword(password);
