@@ -18,6 +18,10 @@ public class CurrentApplicationContext implements ApplicationContextAware {
         return instance.context.getEnvironment().getProperty(key);
     }
 
+    public static <T> T getProperty(String key, Class<T> type) {
+        return instance.context.getEnvironment().getProperty(key, type);
+    }
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         instance.context = applicationContext;
