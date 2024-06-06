@@ -4,6 +4,7 @@ import org.defalt.core.context.auth.UserSecurityContext;
 import org.defalt.core.entity.PostPublication;
 import org.defalt.core.entity.User;
 import org.defalt.core.entity.UserAccessMethod;
+import org.defalt.core.event.publication.PostPublicationAwareEventProducer;
 import org.defalt.core.model.entity.post.PostPublicationCreationDTO;
 import org.defalt.core.model.entity.post.PostPublicationListingDTO;
 import org.defalt.core.repository.PostPublicationRepository;
@@ -19,18 +20,14 @@ import java.util.Optional;
 
 @Component
 public class PostPublicationService extends AbstractEntityService<PostPublication, PostPublicationRepository, PostPublicationCreationDTO> {
-    private final PostPublicationRepository repository;
-    private final UserService userService;
 
-    public PostPublicationService(PostPublicationRepository repository, UserService userService) {
-        super(repository);
-        this.repository = repository;
-        this.userService = userService;
+    public PostPublicationService(PostPublicationRepository repository,
+                                  PostPublicationAwareEventProducer eventProducer) {
+        super(repository, eventProducer);
     }
 
     @Transactional
     public PostPublicationListingDTO getPostsOfUser(User publisher, Pageable pageable) {
-
         return new PostPublicationListingDTO(repository.getAllByPublisherOrderByCreatedAtDesc(publisher, pageable));
     }
 
@@ -41,7 +38,7 @@ public class PostPublicationService extends AbstractEntityService<PostPublicatio
         PostPublication postPublication = creationDTO.create(createNewTransientInstance());
         postPublication.setPublisher(user);
         postPublication.setPrivate(user.getAccessMethod().equals(UserAccessMethod.Private));
-        return repository.save(postPublication);
+        return persist(postPublication);
     }
 
     @Override

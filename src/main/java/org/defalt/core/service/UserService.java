@@ -3,6 +3,7 @@ package org.defalt.core.service;
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.context.auth.KeyCloakAdmin;
 import org.defalt.core.entity.User;
+import org.defalt.core.event.user.UserAwareEventProducer;
 import org.defalt.core.model.entity.user.UserCreationDTO;
 import org.defalt.core.repository.FollowershipRepository;
 import org.defalt.core.repository.PostPublicationRepository;
@@ -21,7 +22,6 @@ import java.util.Optional;
 
 @Component
 public class UserService extends AbstractEntityService<User, UserRepository, UserCreationDTO> {
-    private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final PostPublicationRepository postRepository;
     private final FollowershipRepository followershipRepository;
@@ -30,9 +30,10 @@ public class UserService extends AbstractEntityService<User, UserRepository, Use
         return CurrentApplicationContext.getBean(UserService.class);
     }
 
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder, PostPublicationRepository postRepository, FollowershipRepository followershipRepository) {
-        super(repository);
-        this.repository = repository;
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder,
+                       PostPublicationRepository postRepository,
+                       FollowershipRepository followershipRepository, UserAwareEventProducer eventProducer) {
+        super(repository, eventProducer);
         this.passwordEncoder = passwordEncoder;
         this.postRepository = postRepository;
         this.followershipRepository = followershipRepository;
@@ -48,7 +49,7 @@ public class UserService extends AbstractEntityService<User, UserRepository, Use
         validateCreationDTO(creationDTO);
         creationDTO.setPassword(passwordEncoder.encode(creationDTO.getPassword()));
         User entity = creationDTO.create(createNewTransientInstance());
-        return repository.save(entity);
+        return persist(entity);
     }
 
     @Transactional

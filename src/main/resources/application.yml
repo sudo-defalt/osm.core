@@ -1,6 +1,7 @@
 hosts:
   postgresql: defalt.local:5432
   keycloak: osm.keycloak:8080
+  kafka: defalt.local:9092
 
 spring:
   datasource:
@@ -37,10 +38,14 @@ spring:
         jwt:
           issuer-uri: http://${hosts.keycloak}/realms/osm
           jwk-set-uri: http://${hosts.keycloak}/realms/osm/protocol/openid-connect/certs
+  kafka:
+    bootstrap-servers: ${hosts.kafka}
+
 keycloak-server:
   url: http://${hosts.keycloak}
   username: core
   password: core
+
 
 logging:
   level:

@@ -1,6 +1,7 @@
 package org.defalt.core.service;
 
 import org.defalt.core.entity.AbstractEntity;
+import org.defalt.core.event.EntityAwareEventProducer;
 import org.defalt.core.model.abstracts.CreationDTO;
 import org.defalt.core.model.abstracts.LoaderDTO;
 import org.defalt.core.model.abstracts.SaverDTO;
@@ -27,10 +28,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractEntityService<E extends AbstractEntity, R extends AbstractEntityRepository<E>, C extends CreationDTO<E>> {
-    private final R repository;
+    protected final R repository;
+    protected final EntityAwareEventProducer<E> eventProducer;
 
-    public AbstractEntityService(R repository) {
+    public AbstractEntityService(R repository, EntityAwareEventProducer<E> eventProducer) {
         this.repository = repository;
+        this.eventProducer = eventProducer;
     }
 
     // CRUD methods //
@@ -48,24 +51,30 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
         return repository.findByUidIn(uid);
     }
     private E getSingleEntityByUid(String uid) {
-        return findByUid(uid).orElseThrow(() -> new EntityNotFoundException("uid: " + uid));
+        return findByUid(uid).orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
     public E persist(E entity) {
-        return repository.save(entity);
+        E persistedEntity = repository.save(entity);
+        eventProducer.publishOnCreate(persistedEntity);
+        return persistedEntity;
     }
 
     @Transactional
     public E create(C creationDTO) {
         validateCreationDTO(creationDTO);
         E entity = creationDTO.create(createNewTransientInstance());
-        return repository.save(entity);
+        E persistedEntity = repository.save(entity);
+        eventProducer.publishOnCreate(persistedEntity);
+        return persistedEntity;
     }
 
     @Transactional
     public E update(E entity) {
-        return repository.save(entity);
+        E persistedEntity = repository.save(entity);
+        eventProducer.publishOnUpdate(persistedEntity);
+        return persistedEntity;
     }
     @Transactional
     public Collection<E> updateAll(Collection<E> entities) {
@@ -74,11 +83,15 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
 
     @Transactional
     public void deleteById(long id) {
+        E entity = repository.findById(id).orElseThrow(EntityNotFoundException::new);
         repository.deleteById(id);
+        eventProducer.publishOnDelete(entity);
     }
     @Transactional
     public void deleteByUid(String uid) {
+        E entity = repository.findByUid(uid).orElseThrow(EntityNotFoundException::new);
         repository.deleteByUid(uid);
+        eventProducer.publishOnDelete(entity);
     }
 
     // DTO based CRUDs //
@@ -99,6 +112,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
                 }).collect(Collectors.toList());
     }
 
+    @Transactional
     public <D extends SaverDTO<E>> D updateEntity(D updateDTO) {
         E entity = getSingleEntityByUid(updateDTO.getEntityIdentifier());
         updateDTO.saveTo(entity);

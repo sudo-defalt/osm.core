@@ -16,13 +16,12 @@ import java.util.Map;
 @Configuration
 public class KafkaConfiguration {
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<Long, String> producerFactory() {
         return new DefaultKafkaProducerFactory<>(senderProps());
     }
 
     private Map<String, Object> senderProps() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ProducerConfig.LINGER_MS_CONFIG, 10);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -30,7 +29,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> producerFactory) {
+    public KafkaTemplate<Long, String> kafkaTemplate(ProducerFactory<Long, String> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
 }

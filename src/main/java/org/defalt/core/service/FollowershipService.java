@@ -3,6 +3,7 @@ package org.defalt.core.service;
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.entity.Followership;
 import org.defalt.core.entity.User;
+import org.defalt.core.event.followership.FollowershipAwareEventProducer;
 import org.defalt.core.model.entity.follow.FollowershipCreationDTO;
 import org.defalt.core.repository.FollowershipRepository;
 import org.defalt.core.repository.UserRepository;
@@ -12,12 +13,12 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Component
 public class FollowershipService extends AbstractEntityService<Followership, FollowershipRepository, FollowershipCreationDTO> {
-    private final FollowershipRepository repository;
     private final UserRepository userRepository;
 
-    public FollowershipService(FollowershipRepository repository, UserRepository userRepository) {
-        super(repository);
-        this.repository = repository;
+    public FollowershipService(FollowershipRepository repository,
+                               UserRepository userRepository,
+                               FollowershipAwareEventProducer eventProducer) {
+        super(repository, eventProducer);
         this.userRepository = userRepository;
     }
 
@@ -25,13 +26,14 @@ public class FollowershipService extends AbstractEntityService<Followership, Fol
         return CurrentApplicationContext.getBean(FollowershipService.class);
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Override
     public Followership create(FollowershipCreationDTO creationDTO) {
         validateCreationDTO(creationDTO);
         Followership entity = createNewTransientInstance();
-        entity.setFollower(userRepository.findByUid(creationDTO.getFollowerUid()).get());
-        entity.setFollowee(userRepository.findByUid(creationDTO.getFolloweeUid()).get());
+        entity.setFollower(userRepository.findByUid(creationDTO.getFollowerUid())
+                .orElseThrow(EntityNotFoundException::new));
+        entity.setFollowee(userRepository.findByUid(creationDTO.getFolloweeUid())
+                .orElseThrow(EntityNotFoundException::new));
         return repository.save(entity);
     }
 
@@ -51,9 +53,9 @@ public class FollowershipService extends AbstractEntityService<Followership, Fol
     @Override
     protected void validateCreationDTO(FollowershipCreationDTO creationDTO) {
         User followee = userRepository.findByUid(creationDTO.getFolloweeUid())
-                .orElseThrow(() -> new EntityNotFoundException("uid: " + creationDTO.getFolloweeUid()));
+                .orElseThrow(EntityNotFoundException::new);
         User follower = userRepository.findByUid(creationDTO.getFollowerUid())
-                .orElseThrow(() -> new EntityNotFoundException("uid: " + creationDTO.getFollowerUid()));
+                .orElseThrow(EntityNotFoundException::new);
 
         if (repository.findByFollowerAndFollowee(follower, followee).isPresent())
             throw new IllegalStateException("followership exists");
