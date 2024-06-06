@@ -22,4 +22,11 @@ public interface PostPublicationRepository extends AbstractEntityRepository<Post
                 order by pp.last_update_at desc
             """, nativeQuery = true)
     Page<PostPublication> getLatestForFeed(long myId, Pageable pageable);
+
+    @Query(value = """
+                select pp.* from osm.post_publications pp
+                inner join osm.users u on pp.publisher_id = u.id and u.access_method = 0 and u.id != :myId
+                order by pp.last_update_at desc
+            """, nativeQuery = true)
+    Page<PostPublication> getLatestForExplore(long myId, Pageable pageable);
 }
