@@ -1,4 +1,3 @@
 hosts:
   postgresql: osm.postgresql:5432
   keycloak: osm.keycloak:8080
-  kafka: osm.kafka:9092

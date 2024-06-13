@@ -24,8 +24,7 @@ public class KafkaConfiguration {
 
     private Map<String, Object> senderProps() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                CurrentApplicationContext.getProperty("hosts.kafka", String[].class));
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, CurrentApplicationContext.getProperty("hosts.kafka"));
         props.put(ProducerConfig.LINGER_MS_CONFIG, 10);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
