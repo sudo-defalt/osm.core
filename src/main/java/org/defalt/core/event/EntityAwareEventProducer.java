@@ -23,7 +23,7 @@ public abstract class EntityAwareEventProducer<E extends AbstractEntity> {
             template.send(events.onCreate(entity));
         } catch (Exception e) {
             log.error("error in assembling onCreate event for entity {}({})", entity.getClass().getName(), entity.getUid());
-            throw new RuntimeException("failed to produce event");
+            throw new RuntimeException(e);
         }
     }
 
@@ -32,7 +32,7 @@ public abstract class EntityAwareEventProducer<E extends AbstractEntity> {
             template.send(events.onUpdate(entity));
         } catch (Exception e) {
             log.error("error in assembling onCreate event for entity {}({})", entity.getClass().getName(), entity.getUid());
-            throw new RuntimeException("failed to produce event");
+            throw new RuntimeException(e);
         }
     }
 
@@ -41,7 +41,7 @@ public abstract class EntityAwareEventProducer<E extends AbstractEntity> {
             template.send(events.onUpdate(entity));
         } catch (Exception e) {
             log.error("error in assembling onCreate event for entity {}({})", entity.getClass().getName(), entity.getUid());
-            throw new RuntimeException("failed to produce event");
+            throw new RuntimeException(e);
         }
     }
 
