@@ -46,6 +46,9 @@ public final class CipherUtils {
     }
 
     public String encryptAccess(User owner, String media, User user, Date expiration) {
+        if (media == null)
+            return null;
+
         try {
             return encryptAccess("%s;%s;%s;%d".formatted(owner.getUsername(), media, user.getUsername(), expiration.getTime()));
         } catch (CipheringProcessException e) {
