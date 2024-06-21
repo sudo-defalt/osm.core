@@ -14,6 +14,7 @@ import jakarta.persistence.MappedSuperclass;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public abstract class Publication extends AbstractEntity {
     @ManyToOne
+    @EqualsAndHashCode.Include
     private User publisher;
     @Column(nullable = false, name = "is_private")
     private boolean isPrivate;

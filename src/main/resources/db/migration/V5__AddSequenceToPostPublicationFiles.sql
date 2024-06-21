@@ -1,0 +1,1 @@
+alter table osm.post_publication_files add column index int;

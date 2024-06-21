@@ -3,6 +3,7 @@ package org.defalt.core.util;
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.context.auth.UserSecurityContext;
 import org.defalt.core.entity.User;
+import org.defalt.core.util.exception.CipheringProcessException;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

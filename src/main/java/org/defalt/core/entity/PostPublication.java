@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = PostPublication.ENTITY_NAME)
@@ -19,8 +21,9 @@ public class PostPublication extends Publication {
 
     @Column(nullable = false)
     private String caption;
+    @OrderColumn(name = "index")
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> files = new HashSet<>();
+    private List<String> files = new ArrayList<>();
     @ManyToMany
     private Set<Tag> tags = new HashSet<>();
 }
