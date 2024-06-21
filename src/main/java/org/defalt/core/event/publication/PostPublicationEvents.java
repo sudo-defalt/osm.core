@@ -1,10 +1,12 @@
 package org.defalt.core.event.publication;
 
 import org.defalt.core.entity.PostPublication;
+import org.defalt.core.entity.Tag;
 import org.defalt.core.event.EntityEvents;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class PostPublicationEvents extends EntityEvents<PostPublication> {
@@ -33,7 +35,8 @@ public class PostPublicationEvents extends EntityEvents<PostPublication> {
         return new Created(entity.getUid(),
                 entity.getPublisher().getUsername(),
                 entity.getPublisher().getUid(),
-                entity.getFiles());
+                entity.getFiles(),
+                entity.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));
     }
 
     @Override
@@ -41,7 +44,8 @@ public class PostPublicationEvents extends EntityEvents<PostPublication> {
         return new Updated(entity.getUid(),
                 entity.getPublisher().getUsername(),
                 entity.getPublisher().getUid(),
-                entity.getFiles());
+                entity.getFiles(),
+                entity.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));
     }
 
     @Override
@@ -49,10 +53,11 @@ public class PostPublicationEvents extends EntityEvents<PostPublication> {
         return new Deleted(entity.getUid(),
                 entity.getPublisher().getUsername(),
                 entity.getPublisher().getUid(),
-                entity.getFiles());
+                entity.getFiles(),
+                entity.getTags().stream().map(Tag::getName).collect(Collectors.toSet()));
     }
 
-    private static record Created(String Uid, String user, String userUid, Collection<String> files) {}
-    private static record Updated(String Uid, String user, String userUid, Collection<String> files) {}
-    private static record Deleted(String Uid, String user, String userUid, Collection<String> files) {}
+    private static record Created(String Uid, String user, String userUid, Collection<String> files, Collection<String> tags) {}
+    private static record Updated(String Uid, String user, String userUid, Collection<String> files, Collection<String> tags) {}
+    private static record Deleted(String Uid, String user, String userUid, Collection<String> files, Collection<String> tags) {}
 }
