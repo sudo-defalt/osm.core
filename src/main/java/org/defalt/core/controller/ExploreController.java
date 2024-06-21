@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.defalt.core.model.entity.post.PostPublicationFullDTO;
 import org.defalt.core.model.entity.user.UserBasicIdentityDTO;
 import org.defalt.core.service.ExploreService;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("explore")
 @AllArgsConstructor
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ExploreController {
     private final ExploreService exploreService;
 

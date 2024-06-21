@@ -12,6 +12,8 @@ import org.defalt.core.repository.AbstractEntityRepository;
 import org.defalt.core.service.AbstractEntityService;
 import org.defalt.core.service.PostPublicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import java.util.function.Supplier;
 @RestController
 @RequestMapping("post")
 @AllArgsConstructor
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PostPublicationController extends AbstractEntityDTOController<PostPublication, PostPublicationFullDTO, PostPublicationUpdateDTO, PostPublicationCreationDTO> {
     private final PostPublicationService service;
 

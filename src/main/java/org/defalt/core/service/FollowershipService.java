@@ -7,11 +7,15 @@ import org.defalt.core.event.followership.FollowershipAwareEventProducer;
 import org.defalt.core.model.entity.follow.FollowershipCreationDTO;
 import org.defalt.core.repository.FollowershipRepository;
 import org.defalt.core.repository.UserRepository;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FollowershipService extends AbstractEntityService<Followership, FollowershipRepository, FollowershipCreationDTO> {
     private final UserRepository userRepository;
 

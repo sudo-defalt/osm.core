@@ -7,6 +7,8 @@ import org.defalt.core.controller.abstracts.BasicControllerExceptionHandler;
 import org.defalt.core.entity.User;
 import org.defalt.core.model.entity.user.UserProfileDTO;
 import org.defalt.core.service.UserService;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("profile")
 @AllArgsConstructor
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ProfileController implements BasicControllerExceptionHandler {
     private final UserService service;
 

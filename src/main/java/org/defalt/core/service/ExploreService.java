@@ -6,6 +6,8 @@ import org.defalt.core.model.entity.post.PostPublicationFullDTO;
 import org.defalt.core.model.entity.user.UserBasicIdentityDTO;
 import org.defalt.core.repository.PostPublicationRepository;
 import org.defalt.core.repository.UserRepository;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ExploreService {
     private final PostPublicationRepository postRepository;
     private final UserRepository userRepository;

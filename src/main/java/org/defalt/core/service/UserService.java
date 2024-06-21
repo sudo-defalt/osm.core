@@ -10,8 +10,11 @@ import org.defalt.core.repository.PostPublicationRepository;
 import org.defalt.core.repository.UserRepository;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +23,8 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Optional;
 
-@Component
+@Service
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class UserService extends AbstractEntityService<User, UserRepository, UserCreationDTO> {
     private final PasswordEncoder passwordEncoder;
     private final PostPublicationRepository postRepository;

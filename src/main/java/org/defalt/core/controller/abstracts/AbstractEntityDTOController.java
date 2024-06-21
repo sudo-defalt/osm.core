@@ -28,18 +28,18 @@ public abstract class AbstractEntityDTOController<E extends AbstractEntity, D ex
         return getService().getAll()
                 .stream()
                 .map(entity -> {
-                    D DTO = getLoaderDTOSupplier().get();
-                    DTO.loadFrom(entity);
-                    return DTO;
-                }).collect(Collectors.toList());
+                    D dto = getLoaderDTOSupplier().get();
+                    dto.loadFrom(entity);
+                    return dto;
+                }).toList();
     }
 
     @PostMapping("entity")
     public ResponseEntity<D> createEntity(@RequestBody C creationDTO) {
         E entity = getService().create(creationDTO);
-        D DTO = getLoaderDTOSupplier().get();
-        DTO.loadFrom(entity);
-        return ResponseEntity.ok(DTO);
+        D dto = getLoaderDTOSupplier().get();
+        dto.loadFrom(entity);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("entity")

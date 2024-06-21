@@ -31,7 +31,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
     protected final R repository;
     protected final EntityAwareEventProducer<E> eventProducer;
 
-    public AbstractEntityService(R repository, EntityAwareEventProducer<E> eventProducer) {
+    protected AbstractEntityService(R repository, EntityAwareEventProducer<E> eventProducer) {
         this.repository = repository;
         this.eventProducer = eventProducer;
     }
@@ -98,18 +98,18 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
 
     @Transactional(readOnly = true)
     public <D extends LoaderDTO<E>> D getEntity(String uid, Supplier<D> instanceSupplier) {
-        D DTO = instanceSupplier.get();
-        DTO.loadFrom(getSingleEntityByUid(uid));
-        return DTO;
+        D dto = instanceSupplier.get();
+        dto.loadFrom(getSingleEntityByUid(uid));
+        return dto;
     }
 
     public <D extends LoaderDTO<E>> Collection<D> getAllEntities(Collection<String> uidList, Supplier<D> instanceSupplier) {
         return findAllByUid(uidList).stream()
                 .map(entity -> {
-                    D DTO = instanceSupplier.get();
-                    DTO.loadFrom(entity);
-                    return DTO;
-                }).collect(Collectors.toList());
+                    D dto = instanceSupplier.get();
+                    dto.loadFrom(entity);
+                    return dto;
+                }).toList();
     }
 
     @Transactional
@@ -130,7 +130,7 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
                         log.error("error in updating entity with uid: " + dto.getEntityIdentifier() , e);
                         return false;
                     }
-                }).collect(Collectors.toList());
+                }).toList();
     }
 
     // util methods //
@@ -146,8 +146,8 @@ public abstract class AbstractEntityService<E extends AbstractEntity, R extends 
 
     /**
      * validates creation DTO of entity
-     * @throws BadCreationDTOException
-     * @param creationDTO
+     * @throws BadCreationDTOException this exception is thrown when dto is not valid for creation
+     * @param creationDTO dto to be validated
      */
     protected abstract void validateCreationDTO(C creationDTO);
 }

@@ -8,17 +8,21 @@ import org.defalt.core.event.publication.PostPublicationAwareEventProducer;
 import org.defalt.core.model.entity.post.PostPublicationCreationDTO;
 import org.defalt.core.model.entity.post.PostPublicationListingDTO;
 import org.defalt.core.repository.PostPublicationRepository;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PostPublicationService extends AbstractEntityService<PostPublication, PostPublicationRepository, PostPublicationCreationDTO> {
 
     public PostPublicationService(PostPublicationRepository repository,
