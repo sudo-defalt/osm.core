@@ -21,7 +21,6 @@ import java.util.function.Supplier;
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class UserController extends AbstractEntityDTOController<User, UserFullDTO, UserUpdateDTO, UserCreationDTO> {
     private final UserService service;
 

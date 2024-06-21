@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("feed")
 @AllArgsConstructor
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FeedController implements BasicControllerExceptionHandler {
     private final FeedService feedService;
 

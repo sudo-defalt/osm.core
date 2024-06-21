@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 @RestController
 @RequestMapping("post")
 @AllArgsConstructor
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PostPublicationController extends AbstractEntityDTOController<PostPublication, PostPublicationFullDTO, PostPublicationUpdateDTO, PostPublicationCreationDTO> {
     private final PostPublicationService service;
 

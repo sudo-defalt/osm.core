@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class PostPublicationService extends AbstractEntityService<PostPublication, PostPublicationRepository, PostPublicationCreationDTO> {
 
     public PostPublicationService(PostPublicationRepository repository,

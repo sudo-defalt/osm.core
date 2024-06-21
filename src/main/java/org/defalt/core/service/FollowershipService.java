@@ -15,7 +15,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FollowershipService extends AbstractEntityService<Followership, FollowershipRepository, FollowershipCreationDTO> {
     private final UserRepository userRepository;
 

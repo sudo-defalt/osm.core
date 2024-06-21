@@ -19,7 +19,6 @@ import java.util.function.Supplier;
 @RestController
 @RequestMapping("followership")
 @AllArgsConstructor
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FollowershipController extends AbstractEntityDTOController<Followership, FollowershipFullDTO, FollowershipUpdateDTO, FollowershipCreationDTO> {
     private final FollowershipService service;
 
