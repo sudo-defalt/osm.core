@@ -34,6 +34,11 @@ public class PostPublicationController extends AbstractEntityDTOController<PostP
         return service.getPostsOfUser(user, pageable);
     }
 
+    @GetMapping("{username}/list")
+    public PostPublicationListingDTO getAllPostPublicationsFromUsername(Pageable pageable, @PathVariable String username) {
+        return service.getPostsOfUser(username, pageable);
+    }
+
     @Override
     protected AbstractEntityService<PostPublication, ? extends AbstractEntityRepository<PostPublication>, PostPublicationCreationDTO> getService() {
         return service;

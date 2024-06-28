@@ -2,6 +2,7 @@ package org.defalt.core.service;
 
 import org.defalt.core.context.CurrentApplicationContext;
 import org.defalt.core.context.auth.KeyCloakAdmin;
+import org.defalt.core.context.auth.UserSecurityContext;
 import org.defalt.core.entity.User;
 import org.defalt.core.event.user.UserAwareEventProducer;
 import org.defalt.core.model.entity.user.UserCreationDTO;
@@ -100,5 +101,11 @@ public class UserService extends AbstractEntityService<User, UserRepository, Use
         KeyCloakAdmin.getInstance().registerUser(userRepresentation);
 
         return user;
+    }
+
+    @Transactional
+    public Optional<User> checkAccessForUsername(String username) {
+        long myId = UserSecurityContext.getCurrentUser().getUser().getId();
+        return repository.checkAccessForUsername(myId, username);
     }
 }

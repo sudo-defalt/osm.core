@@ -10,8 +10,11 @@ import org.defalt.core.service.UserService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("profile")
@@ -23,6 +26,15 @@ public class ProfileController implements BasicControllerExceptionHandler {
     public UserProfileDTO getProfile() {
         UserSecurityContext context = UserSecurityContext.getCurrentUser();
         User user = service.getByUsername(context.getUser().getUsername())
+                .orElseThrow(UserNotRegisteredException::new);
+        UserProfileDTO dto = new UserProfileDTO();
+        dto.loadFrom(user);
+        return dto;
+    }
+
+    @GetMapping("{username}")
+    public UserProfileDTO getProfile(@PathVariable String username) {
+        User user = service.checkAccessForUsername(username)
                 .orElseThrow(UserNotRegisteredException::new);
         UserProfileDTO dto = new UserProfileDTO();
         dto.loadFrom(user);
